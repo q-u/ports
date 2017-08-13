@@ -1,0 +1,31 @@
+# Description: Lightweight editor fully programmable using lua or moonscript
+# URL: https://github.com/howl-editor/howl
+# Maintainer: qu, qu at teknik dot io
+# Depends on: gtk3 gdk-pixbuf librsvg
+
+name=howl
+version=git-45a0674
+sversion=45a067452cef59d913b30cb362fff9039550e710
+release=1
+source=()
+
+build() {
+	cd "$PKGMK_SOURCE_DIR" || exit 1
+
+	if cd "$name"; then
+		git reset --hard
+		git pull git://github.com/howl-editor/howl
+	else
+		git clone git://github.com/howl-editor/howl $name
+		cd "$name" || exit 1
+	fi
+
+	git checkout "$sversion"
+
+	cd src/ || exit 1
+
+	make DESTDIR="$PKG" \
+		PREFIX=/usr \
+		install
+}
+
