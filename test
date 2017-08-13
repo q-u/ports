@@ -1,0 +1,19 @@
+#!/bin/bash
+
+for d in ./*/; do
+	shellcheck "$d"/Pkgfile -e SC2148,SC2034
+
+	for f in "$d"/*; do
+		if [ "$(basename "$f")" != "Pkgfile" ]; then
+			sum=$(md5sum "$f" | gawk '{print $1}')
+			grep -q "$sum" "$d"/.md5sum
+			found=$?
+
+			if [ "$found" != "0" ]; then
+				echo Did not find sum of "$f" in "$d".md5sum
+				exit 1
+			fi
+		fi
+	done
+done
+
