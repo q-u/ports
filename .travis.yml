@@ -1,0 +1,3 @@
+language: bash
+script:
+    - for d in $( ls -d */ ); do bash $d/Pkgfile; done
