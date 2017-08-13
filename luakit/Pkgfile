@@ -10,26 +10,26 @@ release=1
 source=(link-patch.txt)
 
 build() {
-	cd $PKGMK_SOURCE_DIR
+	cd "$PKGMK_SOURCE_DIR" || exit 1
 
-	if cd $name; then
+	if cd "$name"; then
 		git reset --hard
 		git pull git://github.com/luakit/luakit
 	else
 		git clone git://github.com/luakit/luakit $name
-		cd $name
+		cd "$name" || exit 1
 	fi
 
 	git checkout $sversion
 
-	patch -i $SRC/link-patch.txt Makefile
+	patch -i "$SRC"/link-patch.txt Makefile
 
 	make USE_LUAJIT=1 \
 		 DEVELOPMENT_PATHS=0 \
 	     PREFIX=/usr \
 		 all
 
-	make DESTDIR=$PKG \
+	make DESTDIR="$PKG" \
 		PREFIX=/usr \
 		install
 }
