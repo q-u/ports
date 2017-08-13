@@ -1,0 +1,30 @@
+# Description: Filesystem functions for lua
+# URL: https://github.com/keplerproject/luafilesystem
+# Maintainer: qu, qu at teknik dot io
+# Depends on: lua51
+
+name=luafilesystem
+version=git-3c4e563
+sversion=3c4e563d9c140319e28c419f2710b51a2f6d6d24
+release=1
+
+
+build() {
+	cd $PKGMK_SOURCE_DIR
+
+	if cd $name; then
+		git reset --hard
+		git pull git://github.com/keplerproject/luafilesystem
+	else
+		git clone git://github.com/keplerproject/luafilesystem $name
+		cd $name
+	fi
+
+	git checkout $sversion
+
+	CPATH=/usr/include/lua5.1 make
+
+	mkdir -p $PKG/usr/lib/lua/5.1
+	cp src/lfs.so $PKG/usr/lib/lua/5.1
+}
+
