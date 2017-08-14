@@ -26,10 +26,10 @@ build() {
 
 	make
 
-	make DESTDIR=$PKG install
+	make DESTDIR="$PKG" install
 
-	mv $PKG/usr/local/* $PKG/usr
-	rmdir $PKG/usr/local
-	rm $PKG/usr/lib/libtxc_dxtn.la
+	mv "$PKG"/usr/local/* "$PKG"/usr
+	rmdir "$PKG"/usr/local
+	rm "$PKG"/usr/lib/libtxc_dxtn.la
 }
 
