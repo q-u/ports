@@ -1,0 +1,31 @@
+# Description: Linux namespaces and seccomp-bpf sandbox
+# URL: https://github.com/netblue30/firejail
+# Maintainer: qu, qu at teknik dot io
+
+name=firejail
+version=git-811be46
+sversion=811be4602a99a32efca3a3040a7d39fb211434a0
+release=1
+source=()
+
+build() {
+	cd "$PKGMK_SOURCE_DIR" || exit 1
+
+	if cd "$name"; then
+		git reset --hard
+		git pull git://github.com/netblue30/firejail
+	else
+		git clone git://github.com/netblue30/firejail $name
+		cd "$name" || exit 1
+	fi
+
+	git checkout "$sversion"
+
+	./configure --prefix=/usr --disable-nls 
+
+	make
+	
+	make DESTDIR="$PKG" \
+		install
+}
+
