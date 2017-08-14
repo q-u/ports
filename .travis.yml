@@ -1,3 +1,9 @@
 language: bash
+addons:
+    apt:
+        sources:
+            - debian-sid
+        packages:
+            - shellcheck
 script:
     - bash test
