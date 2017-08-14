@@ -1,7 +1,7 @@
 #!/bin/bash
 
 for d in ./*/; do
-	shellcheck "$d"/Pkgfile -e SC2148,SC2034
+	shellcheck "$d"/Pkgfile -e SC2148,SC2034 || exit 1
 
 	for f in "$d"/*; do
 		if [ "$(basename "$f")" != "Pkgfile" ]; then
