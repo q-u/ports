@@ -1,0 +1,28 @@
+# Description: Small bitmap font based on lime
+# URL: https://github.com/phallus/fonts
+# Maintainer: qu, qu at teknik dot io
+# Depends on: xorg-bdftopcf
+
+name=lemon
+version=git-83589de
+sversion=83589de5b4b1134b89bfa9663686e5288ebe9131
+release=1
+source=()
+
+build() {
+	cd "$PKGMK_SOURCE_DIR" || exit 1
+
+	if cd "$name"; then
+		git reset --hard
+		git pull git://github.com/phallus/fonts
+	else
+		git clone git://github.com/phallus/fonts $name
+		cd "$name" || exit 1
+	fi
+
+	git checkout "$sversion"
+
+	mkdir -p "$PKG"/usr/share/fonts/misc
+	bdftopcf -o "$PKG"/usr/share/fonts/misc/lemon.pcf lemon.bdf
+}
+
