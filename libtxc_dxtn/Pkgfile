@@ -1,0 +1,35 @@
+# Description: Helper library for S3TC texture (de)compression
+# URL: https://cgit.freedesktop.org/~mareko/libtxc_dxtn/
+# Maintainer: qu, qu at teknik dot io
+# Depends on: mesa3d
+
+name=libtxc_dxtn
+version=1.0.1
+sversion=2d1834d2fb1d4e456f6f0e8748c85c91f8fb6384
+release=1
+source=()
+
+build() {
+	cd "$PKGMK_SOURCE_DIR" || exit 1
+
+	if cd "$name"; then
+		git reset --hard
+		git pull git://people.freedesktop.org/~mareko/libtxc_dxtn
+	else
+		git clone git://people.freedesktop.org/~mareko/libtxc_dxtn $name
+		cd "$name" || exit 1
+	fi
+
+	git checkout "$sversion"
+
+	./autogen.sh
+
+	make
+
+	make DESTDIR=$PKG install
+
+	mv $PKG/usr/local/* $PKG/usr
+	rmdir $PKG/usr/local
+	rm $PKG/usr/lib/libtxc_dxtn.la
+}
+
